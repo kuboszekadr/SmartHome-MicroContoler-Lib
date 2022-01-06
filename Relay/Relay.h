@@ -3,18 +3,21 @@
 
 #include <Arduino.h>
 #include <Logger.h>
+#include <map>
 
 class Relay
 {
 public:
-  Relay(int pin);
+  static std::map <const char*, Relay*> relays;
+  Relay(const char *name, int pin);
 
   void turnOn();
   void turnOff();
 
-  int pin();
+  int getState();
 
 private:
+  Logger logger = Logger("relay");
   int _pin;
 };
 

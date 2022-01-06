@@ -17,6 +17,7 @@ namespace Events
 
     extern EventType queue[EVENT_QUEUE_LENGTH];
     extern int queue_length;
+    extern Logger logger;
 
 }; // namespace Events
 

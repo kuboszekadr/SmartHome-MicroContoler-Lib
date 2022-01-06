@@ -1,10 +1,14 @@
 #include "Relay.h"
 
-Relay::Relay(int pin)
+std::map <const char*, Relay*> Relay::relays;
+
+Relay::Relay(const char *name, int pin)
 {
     _pin = pin;
     pinMode(_pin, OUTPUT);
     digitalWrite(_pin, HIGH); // on ESP32 seems like HIGH=LOW on arduino...
+
+    relays.insert(std::make_pair(name, this));
 }
 
 void Relay::turnOn()
@@ -19,7 +23,7 @@ void Relay::turnOff()
     digitalWrite(_pin, HIGH);
 }
 
-int Relay::pin()
+int Relay::getState()
 {
-    return _pin;
+    return digitalRead(_pin);
 }

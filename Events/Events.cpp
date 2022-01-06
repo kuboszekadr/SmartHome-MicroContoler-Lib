@@ -4,6 +4,8 @@ int Events::queue_length = 0;
 Events::EventType Events::queue[EVENT_QUEUE_LENGTH] = {};
 Events::Event *Events::Event::_events[EVENT_DEFINED_EVENTS];
 
+Logger Events::logger("Events");
+
 void Events::raise(EventType event)
 {
     // if queue is full or event is empty ommit
