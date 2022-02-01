@@ -1,10 +1,11 @@
 #ifndef SmartHomeDevice__h
 #define SmartHomeDevice__h
 
+#include "../Logger/Logger.h"
+
 #include <Arduino.h>
 #include <ArduinoJson.h>
 #include <HTTPClient.h>
-#include <Logger.h>
 
 class SmartHomeDevice
 {

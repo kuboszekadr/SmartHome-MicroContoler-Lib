@@ -1,9 +1,10 @@
 #ifndef Sensors_h
 #define Sensors_h
 
-#include "Events.h"
 #include "Measures.h"
 #include "Sensor.h"
+
+#include "../Events/Events.h"
 
 #include <Arduino.h>
 #include <ArduinoJson.h>

@@ -7,8 +7,9 @@
 #include "EventNames.h"
 #include "EventType.h"
 
+#include "../Logger/Logger.h"
+
 #include <Arduino.h>
-#include <Logger.h>
 
 namespace Events
 {

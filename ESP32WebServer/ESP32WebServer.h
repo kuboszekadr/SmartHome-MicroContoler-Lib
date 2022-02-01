@@ -1,13 +1,13 @@
 #ifndef WebServer__h
 #define WebServer__h
 
-#include "Config.h"
-#include "Relay.h"
+#include "../Config/Config.h"
+#include "../Logger/Logger.h"
+#include "../Relay/Relay.h"
 
 #include <Arduino.h>
 #include <ArduinoJson.h>
 #include <AsyncJson.h>
-#include <Logger.h>
 #include <SPIFFS.h>
 #include <ESPAsyncWebServer.h>
 #include <ESP32Time.h>
