@@ -1,1 +1,1 @@
-# SmartHome-Events
+# Events
