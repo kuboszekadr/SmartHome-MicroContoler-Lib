@@ -9,8 +9,8 @@
 #include <ArduinoJson.h>
 #include <AsyncJson.h>
 #include <SPIFFS.h>
-#include <ESPAsyncWebServer.h>
 #include <ESP32Time.h>
+#include <Update.h>
 
 namespace ESP32WebServer
 {
@@ -26,6 +26,11 @@ namespace ESP32WebServer
 
     void handle_GetSystemTime(AsyncWebServerRequest *request);
     void handle_GetReadings(AsyncWebServerRequest *request);
+
+    void handle_FirmareUpdateOnRequest(AsyncWebServerRequest *request);
+    void handle_FirmareUpdateOnUpload(AsyncWebServerRequest *request, String filename, size_t index, uint8_t *data, size_t len, bool final);
+
+    void add_upload();
 
     extern StaticJsonDocument<256> last_reading;
 }
