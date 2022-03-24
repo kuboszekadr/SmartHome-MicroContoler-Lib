@@ -3,9 +3,10 @@
 
 #define CONFIG_FILES_AMOUNT 5
 
+#include "../Logger/Logger.h"
+
 #include <Arduino.h>
 #include <ArduinoJson.h>
-#include <Logger.h>
 #include <FS.h>
 #include <SPIFFS.h>
 

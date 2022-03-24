@@ -15,6 +15,9 @@ void ESP32WebServer::start()
     server.on("/time", HTTP_GET, handle_GetSystemTime);
     server.on("/reading", HTTP_GET, handle_GetReadings);
 
+    // this one in inspired by: https://github.com/ayushsharma82/AsyncElegantOTA/blob/master/src/AsyncElegantOTA.h
+    server.on("/update", HTTP_POST, handle_FirmareUpdateOnRequest, handle_FirmareUpdateOnUpload);
+
     AsyncCallbackJsonWebHandler *handler = new AsyncCallbackJsonWebHandler(
         "/config",
         handle_PostConfigRequest);
@@ -116,3 +119,114 @@ void ESP32WebServer::handle_GetReadings(AsyncWebServerRequest *request)
         "application/json",
         response);
 }
+
+void ESP32WebServer::handle_FirmareUpdateOnRequest(AsyncWebServerRequest *request)
+{
+    AsyncWebServerResponse *response = request->beginResponse(
+        (Update.hasError()) ? 500 : 200,
+        "text/plain",
+        (Update.hasError()) ? "FAIL" : "OK");
+    response->addHeader("Connection", "close");
+    response->addHeader("Access-Control-Allow-Origin", "*");
+    request->send(response);
+    ESP.restart();
+}
+
+void ESP32WebServer::handle_FirmareUpdateOnUpload(AsyncWebServerRequest *request, String filename, size_t index, uint8_t *data, size_t len, bool final)
+{
+    Serial.println("Updating firmware...");
+    if (!index)
+    {
+        int cmd = (filename == "filesystem") ? U_SPIFFS : U_FLASH;
+        if (!Update.begin(UPDATE_SIZE_UNKNOWN, cmd))
+        { // Start with max available size
+            Update.printError(Serial);
+            return request->send(400, "text/plain", "OTA could not begin");
+        }
+    }
+
+    // Write chunked data to the free sketch space
+    if (len)
+    {
+        if (Update.write(data, len) != len)
+        {
+            return request->send(400, "text/plain", "OTA could not begin");
+        }
+    }
+
+    if (final)
+    { // if the final flag is set then this is the last frame of data
+        if (!Update.end(true))
+        { // true to set the size to the current progress
+            Update.printError(Serial);
+            return request->send(400, "text/plain", "Could not end OTA");
+        }
+    }
+    else
+    {
+        return;
+    }
+}
+
+// void ESP32WebServer::handle_FirmareUpdate(AsyncWebServerRequest *request)
+// {
+// }
+
+// void ESP32WebServer::add_upload()
+// {
+//     server.on(
+//         "/update",
+//         HTTP_POST,
+//         [&](AsyncWebServerRequest *request)
+//         {
+//             // the request handler is triggered after the upload has finished...
+//             // create the response, add header, and send response
+//             AsyncWebServerResponse *response = request->beginResponse(
+//                 (Update.hasError()) ? 500 : 200,
+//                 "text/plain",
+//                 (Update.hasError()) ? "FAIL" : "OK");
+//             response->addHeader("Connection", "close");
+//             response->addHeader("Access-Control-Allow-Origin", "*");
+//             request->send(response);
+
+//             Serial.println("Restarting");
+
+//             ESP.restart();
+//         },
+
+//         [&](AsyncWebServerRequest *request, String filename, size_t index, uint8_t *data, size_t len, bool final)
+//         {
+//             Serial.println("Updating firmware...");
+//             if (!index)
+//             {
+//                 int cmd = (filename == "filesystem") ? U_SPIFFS : U_FLASH;
+//                 if (!Update.begin(UPDATE_SIZE_UNKNOWN, cmd))
+//                 { // Start with max available size
+//                     Update.printError(Serial);
+//                     return request->send(400, "text/plain", "OTA could not begin");
+//                 }
+//             }
+
+//             // Write chunked data to the free sketch space
+//             if (len)
+//             {
+//                 if (Update.write(data, len) != len)
+//                 {
+//                     return request->send(400, "text/plain", "OTA could not begin");
+//                 }
+//             }
+
+//             if (final)
+//             { // if the final flag is set then this is the last frame of data
+//                 if (!Update.end(true))
+//                 { // true to set the size to the current progress
+//                     Update.printError(Serial);
+//                     return request->send(400, "text/plain", "Could not end OTA");
+//                 }
+//             }
+//             else
+//             {
+//                 return;
+//             }
+//         });
+// }

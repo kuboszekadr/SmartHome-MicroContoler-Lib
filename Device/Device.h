@@ -1,16 +1,16 @@
 #ifndef Device_h
 #define Device_h
 
-#include "Config.h"
-#include "SmartHomeDevice.h"
-#include "ESP32WebServer.h"
-#include "WiFiManager.h"
+#include "../Config/Config.h"
+#include "../SmartHomeDevice/SmartHomeDevice.h"
+#include "../ESP32WebServer/ESP32WebServer.h"
+#include "../WiFiManager/WiFiManager.h"
+#include "../Logger/Logger.h"
 
 #include <Arduino.h>
 #include <ArduinoJson.h>
 #include <WiFi.h>
 #include <ESP32Time.h>
-#include <Logger.h>
 
 namespace Device
 {

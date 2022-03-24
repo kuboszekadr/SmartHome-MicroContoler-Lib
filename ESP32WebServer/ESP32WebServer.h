@@ -1,16 +1,16 @@
 #ifndef WebServer__h
 #define WebServer__h
 
-#include "Config.h"
-#include "Relay.h"
+#include "../Config/Config.h"
+#include "../Logger/Logger.h"
+#include "../Relay/Relay.h"
 
 #include <Arduino.h>
 #include <ArduinoJson.h>
 #include <AsyncJson.h>
-#include <Logger.h>
 #include <SPIFFS.h>
-#include <ESPAsyncWebServer.h>
 #include <ESP32Time.h>
+#include <Update.h>
 
 namespace ESP32WebServer
 {
@@ -26,6 +26,11 @@ namespace ESP32WebServer
 
     void handle_GetSystemTime(AsyncWebServerRequest *request);
     void handle_GetReadings(AsyncWebServerRequest *request);
+
+    void handle_FirmareUpdateOnRequest(AsyncWebServerRequest *request);
+    void handle_FirmareUpdateOnUpload(AsyncWebServerRequest *request, String filename, size_t index, uint8_t *data, size_t len, bool final);
+
+    void add_upload();
 
     extern StaticJsonDocument<256> last_reading;
 }

@@ -1,7 +1,7 @@
 #ifndef Sensor_h
 #define Sensor_h
 
-#include "EventType.h"
+#include "../Events/EventType.h"
 #include "Measures.h"
 #include "SensorReading.h"
 
