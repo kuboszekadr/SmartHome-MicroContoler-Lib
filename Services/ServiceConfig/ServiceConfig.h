@@ -1,7 +1,7 @@
 #ifndef ServiceConfig_h
 #define ServiceConfig_h
 
-#include "Services.h"
+#include "../Services.h"
 
 #include "Config/Config.h"
 
