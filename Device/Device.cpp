@@ -27,12 +27,11 @@ void Device::setupWiFi()
   WiFiManager::connect(
       config.data["ssid"],
       config.data["pwd"]);
-
-  ESP32WebServer::start();
 }
 
 void Device::setupTime()
 {
+  logger.log("Syncing time...");
   if (device == nullptr)
   {
     logger.log("Can not sync time with the server.");

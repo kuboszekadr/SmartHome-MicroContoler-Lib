@@ -3,7 +3,6 @@
 
 #include "../Config/Config.h"
 #include "../SmartHomeDevice/SmartHomeDevice.h"
-#include "../ESP32WebServer/ESP32WebServer.h"
 #include "../WiFiManager/WiFiManager.h"
 #include "../Logger/Logger.h"
 
