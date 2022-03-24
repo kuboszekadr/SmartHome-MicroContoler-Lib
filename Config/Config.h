@@ -21,10 +21,11 @@ typedef enum
 class Config
 {
 public:
-    Config(const char *name, const char *root="config");
+    Config(const char *name) : Config(name, "config") {};
+    Config(const char *name, const char *root);
 
+    void setPath(const char *path);
     char *name(){return _name;};
-    void file_path(char *buff);
 
     config_status_t load();
     config_status_t save();
@@ -33,7 +34,7 @@ public:
 
 protected:
     char _name[16];
-    char _root[16];
+    char _path[33];
 
     Logger logger = Logger("config");
 };
