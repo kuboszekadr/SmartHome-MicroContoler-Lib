@@ -71,3 +71,11 @@ void Device::setupSPIFSS()
     logger.log("Failed to mount file system.");
   }
 }
+
+void Device::setup()
+{
+    Device::setupSPIFSS();
+    Device::setupWiFi();
+    Device::setupAPI();
+    Device::setupTime();
+}

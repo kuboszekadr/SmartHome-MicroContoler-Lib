@@ -20,6 +20,8 @@ namespace Device
     void setupWiFi();
     void setupTime();
     void setupSPIFSS();
+
+    void setup();
 }
 
 #endif
