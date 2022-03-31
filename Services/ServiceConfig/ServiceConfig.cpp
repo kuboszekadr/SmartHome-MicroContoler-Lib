@@ -56,3 +56,5 @@ void Services::ServiceConfig::post(AsyncWebServerRequest *request, JsonVariant &
     }
     request->send(200);
 }
+
+Services::ServiceConfig config_service = Services::ServiceConfig();

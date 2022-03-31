@@ -23,3 +23,4 @@ void Services::ServiceSystemTime::get(AsyncWebServerRequest *request)
         response);
 }
 
+Services::ServiceSystemTime time_service = Services::ServiceSystemTime();
