@@ -1,23 +1,23 @@
 #include "SmartHomeDevice.h"
 
-SmartHomeDevice::SmartHomeDevice(const char *host, int port, uint8_t device_id)
+SmartHomeDevice::SmartHomeDevice(const char *host, int port, String device_name)
 {
-    sprintf(_host_url, "http://%s:%d", host, port);
-    _device_id = device_id;
+    sprintf(host_url, "http://%s:%d", host, port);
+    device_name.toCharArray(this->device_name, 31);
 }
 
 void SmartHomeDevice::postNotification(const char *title, const char *message)
 {
     char url[60];
-    sprintf(url, "%s/%s", _host_url, "notifier");
-    
+    sprintf(url, "%s/%s", host_url, "notifier");
+
     StaticJsonDocument<512> doc;
     JsonObject obj = doc.to<JsonObject>();
 
     obj["title"] = title;
     obj["message"] = message;
 
-    // postData(obj, "notifier"); //TODO: restore later-on
+    postData(obj, "notifier");
 }
 
 void SmartHomeDevice::postReadings(const JsonVariant &obj)
@@ -25,30 +25,55 @@ void SmartHomeDevice::postReadings(const JsonVariant &obj)
     StaticJsonDocument<1000> doc;
     JsonObject _obj = doc.to<JsonObject>();
 
-    _obj["device_id"] = _device_id;
-    _obj["data"] = obj; 
+    _obj["device_name"] = device_name;
+    _obj["data"] = obj;
 
     postData(_obj, "api/data_collector");
 }
 
 void SmartHomeDevice::postLog(const JsonVariant &obj)
 {
-    postData(obj, "api/logs");
+    // TODO: add device metadata
+    postData(obj, "api/v2.0/logs");
+}
+
+String SmartHomeDevice::getData(const JsonVariant &obj, const char *endpoint, const char *version)
+{
+    String payload;
+    serializeJson(obj, payload);
+
+    char url[60];
+    sprintf(url, "%s/api/%s/%s", host_url, version, endpoint);
+
+    HTTPClient client;
+    client.begin(url);
+    client.addHeader("Content-Type", "application/json");
+
+    int response_code = client.sendRequest("GET", payload);
+    if (response_code != 200)
+    {
+        logger.logf("Cannot get value from endpoint %s. Response code: %d", url, response_code);
+        return String("0");
+    }
+
+    String result = client.getString();
+    client.end();
+    return result;
 }
 
 int SmartHomeDevice::postData(const JsonVariant &obj, const char *endpoint)
 {
     String payload;
-    serializeJson(obj, payload); 
+    serializeJson(obj, payload);
 
     char url[60];
-    sprintf(url, "%s/%s", _host_url, endpoint);
+    sprintf(url, "%s/%s", host_url, endpoint);
 
     HTTPClient client;
     client.begin(url);
     client.addHeader("Content-Type", "application/json");
-    
-    int response_code = client.POST(payload);    
+
+    int response_code = client.POST(payload);
     client.end();
 
     return response_code;
@@ -59,7 +84,7 @@ void SmartHomeDevice::sync(JsonDocument &doc)
     logger.log("Syncing time with the server...");
 
     char endpoint[60];
-    sprintf(endpoint, "%s/%s", _host_url, "api/date");
+    sprintf(endpoint, "%s/%s", host_url, "api/date");
 
     HTTPClient client;
     client.begin(endpoint);
@@ -67,7 +92,7 @@ void SmartHomeDevice::sync(JsonDocument &doc)
     int response_code = client.GET();
     if (response_code != 200)
     {
-        
+
         logger.log("Cannot sync device.");
         return;
     }

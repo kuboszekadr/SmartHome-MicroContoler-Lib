@@ -8,12 +8,12 @@ void Device::setupAPI()
   Config config = Config("api");
   config.load();
 
+  String name = config.data["device_name"];
   device = new SmartHomeDevice(
       config.data["host"],
       config.data["port"].as<int>(),
-      config.data["device_id"].as<int>());
+      name);
 
-  String name = config.data["device_name"];
   WiFi.setHostname(name.c_str());
 }
 
@@ -74,8 +74,8 @@ void Device::setupSPIFSS()
 
 void Device::setup()
 {
-    Device::setupSPIFSS();
-    Device::setupWiFi();
-    Device::setupAPI();
-    Device::setupTime();
+  setupSPIFSS();
+  setupWiFi();
+  setupAPI();
+  setupTime();
 }

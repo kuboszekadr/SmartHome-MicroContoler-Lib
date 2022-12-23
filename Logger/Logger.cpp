@@ -16,12 +16,16 @@ void Logger::log(const char *msg)
 void Logger::logf(const char *msg_format, ...)
 {
     // get current system timestamp
-    char ts[32] = "";
+    char dt[32] = "";
     struct tm timestamp = _time.getTimeStruct();
-    strftime(ts,
+    strftime(dt,
              32,
              date_format,
              &timestamp);
+
+    char ts[40] = "";
+    sprintf(ts, "%s.%03d", dt, _time.getMillis());
+    Serial.println(ts);
 
     // prepare message
     va_list args;
