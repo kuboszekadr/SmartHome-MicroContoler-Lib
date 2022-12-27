@@ -20,7 +20,7 @@ class SmartHomeDevice
         int postData(const JsonVariant &obj, const char *endpoint);
         String getData(const JsonVariant &obj, const char *endpoint, const char *version);
 
-        void postReadings(const JsonVariant &obj);
+        void postReadings(const JsonVariant &obj, const char *sensor_name);
         void postLog(const JsonVariant &obj);
         void postNotification(const char *title, const char *message);
 

@@ -20,13 +20,13 @@ void SmartHomeDevice::postNotification(const char *title, const char *message)
     postData(obj, "notifier");
 }
 
-void SmartHomeDevice::postReadings(const JsonVariant &obj)
+void SmartHomeDevice::postReadings(const JsonVariant &obj, const char *sensor_name)
 {
     StaticJsonDocument<1000> doc;
     JsonObject _obj = doc.to<JsonObject>();
 
     _obj["device_name"] = device_name;
-    // _obj["sensor_name"] = "N/A";
+    _obj["sensor_name"] = sensor_name;
     _obj["readings"] = obj;
 
     postData(_obj, "api/data_collector");
