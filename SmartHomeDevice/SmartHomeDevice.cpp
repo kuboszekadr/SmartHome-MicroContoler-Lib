@@ -26,7 +26,8 @@ void SmartHomeDevice::postReadings(const JsonVariant &obj)
     JsonObject _obj = doc.to<JsonObject>();
 
     _obj["device_name"] = device_name;
-    _obj["data"] = obj;
+    // _obj["sensor_name"] = "N/A";
+    _obj["readings"] = obj;
 
     postData(_obj, "api/data_collector");
 }
@@ -65,6 +66,7 @@ int SmartHomeDevice::postData(const JsonVariant &obj, const char *endpoint)
 {
     String payload;
     serializeJson(obj, payload);
+    Serial.println(payload);
 
     char url[60];
     sprintf(url, "%s/%s", host_url, endpoint);

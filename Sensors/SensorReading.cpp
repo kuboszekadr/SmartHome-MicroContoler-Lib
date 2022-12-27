@@ -21,18 +21,16 @@ Sensors::SensorReading::SensorReading(
 
 void Sensors::SensorReading::toJSON(JsonObject &doc)
 {
-    doc["sensor_id"] = _sensor_id;
-    doc["timestamp"] = getTime("%Y%m%d %H%M%S");
-
-    JsonArray readings = doc.createNestedArray("readings");
+    String ts = getTime("%Y%m%d %H%M%S");
 
     for (uint8_t i = 0; i < _measures_amount; i++)
     {
-        JsonObject reading = readings.createNestedObject();
-        reading["measure_id"] = _measures_id[i];
+        doc["measure_name"] = _measures_id[i];
 
         float value = _readings[i] / _readings_count;
-        reading["value"] = value;
+        doc["value"] = value;
         _last_readings[i] = value;
+
+        doc["timestamp"] = ts;
     }
 }
