@@ -86,7 +86,7 @@ void SmartHomeDevice::sync(JsonDocument &doc)
     logger.log("Syncing time with the server...");
 
     char endpoint[60];
-    sprintf(endpoint, "%s/%s", host_url, "api/date");
+    sprintf(endpoint, "%s/%s", host_url, "api/v1.0/date");
 
     HTTPClient client;
     client.begin(endpoint);

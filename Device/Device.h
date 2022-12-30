@@ -13,15 +13,16 @@
 
 namespace Device
 {
-    extern SmartHomeDevice *device;
-    extern Logger logger;
+		extern SmartHomeDevice *device;
+		extern Logger logger;
 
-    void setupAPI();
-    void setupWiFi();
-    void setupTime();
-    void setupSPIFSS();
+		void setupAPI();
+		void setupWiFi();
+		void setupTime();
+		void setupSPIFSS();
+		void sendHeartbeat();
 
-    void setup();
+		void setup();
 }
 
 #endif

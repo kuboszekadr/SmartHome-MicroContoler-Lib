@@ -72,6 +72,15 @@ void Device::setupSPIFSS()
   }
 }
 
+void Device::sendHeartbeat()
+{
+  StaticJsonDocument<128> doc;
+  JsonObject obj = doc.to<JsonObject>();
+
+  obj["device_name"] = device->device_name;
+  (void)device->postData(obj, "api/v1.0/heartbeat");
+}
+
 void Device::setup()
 {
   setupSPIFSS();
