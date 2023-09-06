@@ -15,7 +15,7 @@ class SmartHomeDevice
 
         void login();
         void registerDevice();
-        void sync(JsonDocument &doc);
+        bool sync(JsonDocument &doc);
         
         int postData(const JsonVariant &obj, const char *endpoint);
         String getData(const JsonVariant &obj, const char *endpoint, const char *version);
