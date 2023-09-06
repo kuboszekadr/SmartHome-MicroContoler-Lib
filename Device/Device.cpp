@@ -40,14 +40,24 @@ void Device::setupTime()
 
   // send request to host server
   StaticJsonDocument<256> doc;
-  device->sync(doc);
+  uint8_t timeout = 0;
+  
+  while (timeout < 10)
+  {
+    if (!device->sync(doc))
+    {
+      logger.log("Retrying to sync...");
+    }
+    else
+    {
+      break;
+    }
+    timeout += 1;
+    delay(100);
+  }
 
   long epoch = doc["date"];
   int timezone = doc["timezone"]; 
-
-  // set device time
-  ESP32Time _time = ESP32Time();
-  _time.setTime(epoch);
 
   char tz[10];
   if (timezone > 0) // trial and fail obtained...
@@ -58,6 +68,11 @@ void Device::setupTime()
   {
     sprintf(tz, "UTC+%i", -timezone);
   }
+
+  // set device time
+  ESP32Time _time = ESP32Time();
+  _time.setTime(epoch);
+
   setenv("TZ", tz, 0);
   tzset();
 
@@ -85,6 +100,7 @@ void Device::setup()
 {
   setupSPIFSS();
   setupWiFi();
+
   setupAPI();
   setupTime();
 }

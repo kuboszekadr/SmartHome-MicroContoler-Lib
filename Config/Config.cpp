@@ -9,23 +9,24 @@ Config::Config(const char *name, const char *root)
 
 config_status_t Config::load()
 {
-    logger.logf("Loading: %s", _path);
-
+    logger.logf("Opening: %s", _path);
     File config_file = SPIFFS.open(_path, FILE_READ);
+
     if (!config_file)
     {
         logger.logf("Config file %s does not exists!", _path);
         return CONFIG_FILE_ERROR;
     }
 
+    logger.log("Deserializing...");
     DeserializationError err = deserializeJson(data, config_file);
     if (err)
     {
-        logger.log("Serialization error...");
+        logger.logf("Serialization error for %s...", _path);
         return CONFIG_SERIALIZATION_ERROR;
     }
 
-    logger.log("Config loaded sucesfully.");
+    // logger.log("Config loaded sucesfully.");
     return CONFIG_LOADED;
 }
 

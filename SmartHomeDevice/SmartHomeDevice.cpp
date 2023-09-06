@@ -34,7 +34,6 @@ void SmartHomeDevice::postReadings(const JsonVariant &obj, const char *sensor_na
 
 void SmartHomeDevice::postLog(const JsonVariant &obj)
 {
-    // TODO: add device metadata
     postData(obj, "api/v2.0/logs");
 }
 
@@ -81,10 +80,9 @@ int SmartHomeDevice::postData(const JsonVariant &obj, const char *endpoint)
     return response_code;
 }
 
-void SmartHomeDevice::sync(JsonDocument &doc)
+bool SmartHomeDevice::sync(JsonDocument &doc)
 {
     logger.log("Syncing time with the server...");
-
     char endpoint[60];
     sprintf(endpoint, "%s/%s", host_url, "api/v1.0/date");
 
@@ -96,11 +94,12 @@ void SmartHomeDevice::sync(JsonDocument &doc)
     {
 
         logger.log("Cannot sync device.");
-        return;
+        return false;
     }
 
     deserializeJson(doc, client.getString());
     client.end();
 
     logger.log("Sync succesfull.");
+    return true;
 }
