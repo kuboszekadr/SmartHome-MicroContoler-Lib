@@ -48,6 +48,7 @@ String SmartHomeDevice::getData(const JsonVariant &obj, const char *endpoint, co
     HTTPClient client;
     client.begin(url);
     client.addHeader("Content-Type", "application/json");
+    client.setConnectTimeout(1000);
 
     int response_code = client.sendRequest("GET", payload);
     if (response_code != 200)
@@ -72,6 +73,7 @@ int SmartHomeDevice::postData(const JsonVariant &obj, const char *endpoint)
 
     HTTPClient client;
     client.begin(url);
+    client.setConnectTimeout(1000);
     client.addHeader("Content-Type", "application/json");
 
     int response_code = client.POST(payload);
@@ -88,6 +90,7 @@ bool SmartHomeDevice::sync(JsonDocument &doc)
 
     HTTPClient client;
     client.begin(endpoint);
+    client.setConnectTimeout(1000);
 
     int response_code = client.GET();
     if (response_code != 200)

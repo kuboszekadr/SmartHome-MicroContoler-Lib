@@ -14,6 +14,7 @@ void ESP32WebServer::start()
     server.on("/relay", HTTP_GET, handle_GetRelayMode);
     server.on("/time", HTTP_GET, handle_GetSystemTime);
     server.on("/reading", HTTP_GET, handle_GetReadings);
+    server.on("/restart", HTTP_POST, handle_Restart);
 
     // this one in inspired by: https://github.com/ayushsharma82/AsyncElegantOTA/blob/master/src/AsyncElegantOTA.h
     server.on("/update", HTTP_POST, handle_FirmareUpdateOnRequest, handle_FirmareUpdateOnUpload);
@@ -26,6 +27,17 @@ void ESP32WebServer::start()
     ESP32WebServer::server.begin();
     server.addHandler(handler);
 };
+
+void ESP32WebServer::handle_Restart(AsyncWebServerRequest *request)
+{
+    request->send(
+        200, 
+        "text/plain",
+        "restarting..."
+        );
+    delay(100);
+    ESP.restart();
+}
 
 void ESP32WebServer::handle_GetConfigRequest(AsyncWebServerRequest *request)
 {
