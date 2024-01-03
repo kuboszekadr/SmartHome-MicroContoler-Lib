@@ -11,6 +11,18 @@ Relay::Relay(const char *name, int pin)
     relays.insert(std::make_pair(name, this));
 }
 
+Relay::~Relay()
+{
+    for (auto it = relays.begin(); it != relays.end(); ++it)
+    {
+        if (it->second == this)
+        {
+            relays.erase(it);
+            break;
+        }
+    }
+}
+
 void Relay::turnOn()
 {
     logger.logf("Opening relay on pin %d", _pin);

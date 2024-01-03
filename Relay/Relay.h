@@ -11,6 +11,7 @@ class Relay
 public:
   static std::map <const char*, Relay*> relays;
   Relay(const char *name, int pin);
+  ~Relay();
 
   void turnOn();
   void turnOff();
