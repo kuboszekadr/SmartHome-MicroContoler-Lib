@@ -6,7 +6,7 @@
 #include <ArduinoJson.h>
 
 #ifdef ARDUINO
-    #include "../Timestamp/Timestamp.h"
+    #include "Timestamp/Timestamp.h"
 #else
     #include <string>
 #endif

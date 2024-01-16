@@ -1,7 +1,7 @@
 #ifndef Programs_h
 #define Programs_h
 
-#include "../Events/Events.h"
+#include "Events/Events.h"
 
 namespace Programs
 {

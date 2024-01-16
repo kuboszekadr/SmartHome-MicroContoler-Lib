@@ -1,11 +1,11 @@
 #ifndef Device_h
 #define Device_h
 
-#include "../Config/Config.h"
-#include "../SmartHomeDevice/SmartHomeDevice.h"
-#include "../WiFiManager/WiFiManager.h"
-#include "../Logger/Logger.h"
-#include "../Timestamp/Timestamp.h"
+#include "Config/Config.h"
+#include "SmartHomeDevice/SmartHomeDevice.h"
+#include "WiFiManager/WiFiManager.h"
+#include "Logger/Logger.h"
+#include "Timestamp/Timestamp.h"
 
 #include <Arduino.h>
 #include <ArduinoJson.h>

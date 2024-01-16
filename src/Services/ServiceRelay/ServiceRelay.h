@@ -1,8 +1,8 @@
 #ifndef RelayService_h
 #define RelayService_h
 
-#include "../../Relay/Relay.h"
-#include "../Services/Services.h"
+#include "Relay/Relay.h"
+#include "Services/Services.h"
 
 namespace Services
 {

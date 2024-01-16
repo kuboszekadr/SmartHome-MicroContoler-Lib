@@ -7,7 +7,7 @@
 #include <cstdio>
 #include <stdio.h>
 
-#include "../Timestamp/Timestamp.h"
+#include "Timestamp/Timestamp.h"
 
 typedef void (*stream)(const char *module_name,
                        const char *log_level,

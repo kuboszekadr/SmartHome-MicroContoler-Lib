@@ -3,7 +3,7 @@
 
 #define CONNECTION_TIMEOUT 60000 // in miliseconds
 
-#include "../Logger/Logger.h"
+#include "Logger/Logger.h"
 #include <WiFi.h>
 
 namespace WiFiManager
