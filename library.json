@@ -1,0 +1,25 @@
+{
+    "name": "SmartHome-MicroControler-Lib",
+    "version": "0.0.1",
+    "keywords": "smarthome, esp32, service, framework",
+    "description": "SmartHome-MicroControler-Lib",
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/kuboszekadr/SmartHome-MicroContoler-Lib.git"
+    },
+    "authors": {
+      "name": "Adrian Kuboszek",
+      "email": "kuboszekadr@gmail.com"
+    },
+    "exclude": [
+      "test"
+    ],
+    "export": {
+        "include": ["src"]
+      },    
+    "build": {
+      "libCompatMode": "off"
+    },
+    "frameworks": "arduino",
+    "platforms": "native"
+  }
