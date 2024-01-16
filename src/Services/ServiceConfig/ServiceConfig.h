@@ -1,7 +1,7 @@
 #ifndef ServiceConfig_h
 #define ServiceConfig_h
 
-#include "Serices/Services.h"
+#include "Services/Services.h"
 #include "Config/Config.h"
 
 #include <ArduinoJson.h>
