@@ -54,7 +54,7 @@ String SmartHomeDevice::getData(const JsonVariant &obj, const char *endpoint, co
     if (response_code != 200)
     {
         logger.logf("Cannot get value from endpoint %s. Response code: %d", url, response_code);
-        return String("0");
+        return String("-1");
     }
 
     String result = client.getString();
