@@ -13,13 +13,20 @@ void Services::ServiceOTA::updateOnRequest(AsyncWebServerRequest *request)
         (Update.hasError()) ? "FAIL" : "OK");
     response->addHeader("Connection", "close");
     response->addHeader("Access-Control-Allow-Origin", "*");
+
     request->send(response);
 
-    ESP.restart();
+    request->onDisconnect([]() {
+        delay(500);
+        ESP.restart();
+    });
+
 }
 
 void Services::ServiceOTA::updateOnUpload(AsyncWebServerRequest *request, String filename, size_t index, uint8_t *data, size_t len, bool final)
 {
+    // Serial.println("Updating firmware...");
+    // Serial.println(filename);
     if (!index)
     {
         int cmd = (filename == "filesystem") ? U_SPIFFS : U_FLASH;
