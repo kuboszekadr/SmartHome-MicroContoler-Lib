@@ -39,6 +39,11 @@ void SmartHomeDevice::postLog(const JsonVariant &obj)
 
 String SmartHomeDevice::getData(const JsonVariant &obj, const char *endpoint, const char *version)
 {
+    if (!_api_enabled)
+    {
+        return String("-1");
+    }
+    
     String payload;
     serializeJson(obj, payload);
 
@@ -64,6 +69,11 @@ String SmartHomeDevice::getData(const JsonVariant &obj, const char *endpoint, co
 
 int SmartHomeDevice::postData(const JsonVariant &obj, const char *endpoint)
 {
+    if (!_api_enabled)
+    {
+        return -1;
+    }
+
     String payload;
     serializeJson(obj, payload);
     Serial.println(payload);

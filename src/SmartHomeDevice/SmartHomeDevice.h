@@ -11,10 +11,10 @@ class SmartHomeDevice
 {
     public:
         SmartHomeDevice(const char *host, int port, String device_name);
-        ~SmartHomeDevice();
+        ~SmartHomeDevice() {};
 
-        void login();
-        void registerDevice();
+        void setupAPI(bool is_enabled=true) {_api_enabled = is_enabled;}
+
         bool sync(JsonDocument &doc);
         
         int postData(const JsonVariant &obj, const char *endpoint);
@@ -30,6 +30,8 @@ class SmartHomeDevice
         Logger logger = Logger("SmartHomeDevice");
         char _host[20];
         char _url[5];
+
+        bool _api_enabled = true;
 };
 
 #endif

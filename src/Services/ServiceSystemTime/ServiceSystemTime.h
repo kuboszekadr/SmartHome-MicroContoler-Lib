@@ -2,8 +2,7 @@
 #define TimeService_h
 
 #include "Services/Services.h"
-
-#include <ESP32Time.h>
+#include "Timestamp/Timestamp.h"
 
 namespace Services
 {

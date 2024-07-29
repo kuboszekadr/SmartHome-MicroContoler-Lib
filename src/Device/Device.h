@@ -9,6 +9,7 @@
 
 #include <Arduino.h>
 #include <ArduinoJson.h>
+#include <HTTPUpdate.h>
 #include <SPIFFS.h>
 #include <WiFi.h>
 
@@ -24,6 +25,10 @@ namespace Device
 	void sendHeartbeat();
 
 	void setup();
+
+	void checkForUpdates();
+	bool updateFirmware();
+	bool updateFilesystem();
 }
 
 #endif

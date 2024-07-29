@@ -15,6 +15,13 @@ char *getTimestamp()
     return ts;
 }
 
+unsigned long getMillis()
+{
+	struct timeval tv;
+	gettimeofday(&tv, NULL);
+	return tv.tv_usec/1000;
+}
+
 void setTime(long epoch, const char* tz)
 {
 #ifdef ARDUINO

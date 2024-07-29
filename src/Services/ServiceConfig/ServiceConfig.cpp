@@ -25,10 +25,9 @@ void Services::ServiceConfig::get(AsyncWebServerRequest *request, JsonVariant &j
     Config config = Config(file, folder);
     config.load();
 
-    String response;
+    char response[256] = "";
     serializeJson(config.data, response);
-    Serial.println(response);
-    
+
     request->send(
         200,
         "application/json",
@@ -42,22 +41,19 @@ void Services::ServiceConfig::post(AsyncWebServerRequest *request, JsonVariant &
     const char* file = obj["file_name"];
     const char* folder = obj["folder"] | "config";
     
+    JsonDocument doc;
+    deserializeJson(doc, obj["content"]);
+
     Config config = Config(file, folder);
-    config.data = obj["content"];
+    config.load();
+
+    config.data = doc;
 
     int status = config.save();
     if (status != CONFIG_SAVED)
     {
         request->send(500);
     }
-
-    config.load();
-    JsonDocument response_obj;
-    response_obj["status"] = "ok";
-    response_obj["content"] = config.data;
-
-    AsyncResponseStream *response = request->beginResponseStream("application/json");
-    serializeJson(response_obj, *response);
-    request->send(response);    
+    request->send(200);
 }
 

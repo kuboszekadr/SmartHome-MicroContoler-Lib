@@ -1,8 +1,8 @@
 #include "Programs.h"
 
-bool Programs::Program::isRunning()
+bool Programs::Program::isActive()
 {
-    return _is_running;
+    return _is_active;
 }
 
 void Programs::Program::deactivate()
